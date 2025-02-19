@@ -11,9 +11,9 @@
 .svn/
 .swiftpm/
 migrate_working_dir/
-.packages
-.page_2.dart
-.main2.dart
+/packages
+/page_1.dart
+/main2.dart
 # IntelliJ related
 *.iml
 *.ipr
