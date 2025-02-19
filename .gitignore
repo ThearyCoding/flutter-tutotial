@@ -14,6 +14,7 @@ migrate_working_dir/
 /packages
 /page_1.dart
 /main2.dart
+
 # IntelliJ related
 *.iml
 *.ipr
