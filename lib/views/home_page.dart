@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../providers/category_provider.dart';
 import '../providers/product_provider.dart';
 import '../../models/product.dart';
+import 'product_detail_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,18 +18,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final TextEditingController _searchController = TextEditingController();
-  @override
-  void initState() {
-    super.initState();
-    fetchData();
-  }
 
-  void fetchData() async {
-    await Future.wait([
-      Provider.of<CategoryProvider>(context, listen: false).fetchCategories(),
-      Provider.of<ProductProvider>(context, listen: false).fetchProducts()
-    ]);
-  }
+
 
   void showBottomSheet() {
     showModalBottomSheet(
@@ -267,51 +258,65 @@ class _HomePageState extends State<HomePage> {
                           itemBuilder: (ctx, index) {
                             final Product product =
                                 productProvider.products[index];
-                            return SizedBox(
-                              height: 100,
-                              width: 100,
-                              child: Card(
-                                  child: Column(
-                                children: [
-                                  Flexible(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: CachedNetworkImageProvider(
-                                                  product.images![0]))),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      product.title ?? 'No title provided',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          '\$${product.price ?? 0}',
-                                          style: TextStyle(fontSize: 15),
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ProductDetailPage(
+                                              product: product,
+                                            )));
+                              },
+                              child: SizedBox(
+                                height: 100,
+                                width: 100,
+                                child: Card(
+                                    child: Column(
+                                  children: [
+                                    Flexible(
+                                      child: Hero(
+                                        tag: product.id ?? 0,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  fit: BoxFit.cover,
+                                                  image:
+                                                      CachedNetworkImageProvider(
+                                                          product.images![0]))),
                                         ),
-                                        Text(
-                                          '${product.category!.name}',
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              color: Colors.green),
-                                        ),
-                                      ],
+                                      ),
                                     ),
-                                  )
-                                ],
-                              )),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        product.title ?? 'No title provided',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            '\$${product.price ?? 0}',
+                                            style: TextStyle(fontSize: 15),
+                                          ),
+                                          Text(
+                                            '${product.category!.name}',
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.green),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                )),
+                              ),
                             );
                           }),
                 ),

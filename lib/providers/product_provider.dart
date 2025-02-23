@@ -3,6 +3,9 @@ import 'package:flutter_tutoial/services/product_api.dart';
 import '../../models/product.dart';
 
 class ProductProvider extends ChangeNotifier {
+  ProductProvider(){
+    fetchProducts();
+  }
   final List<Product> products = [];
   final ProductApi _productApi = ProductApi();
   bool isLoading = true;
@@ -16,14 +19,12 @@ class ProductProvider extends ChangeNotifier {
   Future<void> fetchProducts() async {
     final productData = await _productApi.fetchProducts();
     products.addAll(productData);
-    isLoading = false;
-    notifyListeners();
+    setLoading(false);
   }
 
   Future<void> filterProducts(
       double minPrice, double maxPrice, int categoryId) async {
-    isLoading = false;
-    notifyListeners();
+    setLoading(true);
     products.clear();
     if (selectedIndex == 0) {
       await fetchProducts();
@@ -33,27 +34,27 @@ class ProductProvider extends ChangeNotifier {
       products.addAll(data);
     }
 
-    isLoading = false;
-    notifyListeners();
+    setLoading(false);
   }
 
   Future<void> fetchProductByCategoryId(int categoryId) async {
-    isLoading = true;
-    notifyListeners();
+    setLoading(true);
     products.clear();
     final productdata = await _productApi.fetchProductByCategoryId(categoryId);
     products.addAll(productdata);
-    isLoading = false;
-    notifyListeners();
+    setLoading(false);
   }
 
   Future<void> searchProductByTitle(String title) async {
-    isLoading = true;
-    notifyListeners();
+    setLoading(true);
     products.clear();
     final productdata = await _productApi.searchProductByTitle(title);
     products.addAll(productdata);
-    isLoading = false;
+    setLoading(false);
+  }
+
+  void setLoading(bool value) {
+    isLoading = value;
     notifyListeners();
   }
 }

@@ -7,10 +7,13 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> login(
       BuildContext context, String email, String password) async {
-    isLoading = true;
-    notifyListeners();
+    setLoading(true);
     await _authApi.login(context, email, password);
-    isLoading = false;
+    setLoading(false);
+  }
+
+  void setLoading(bool value) {
+    isLoading = value;
     notifyListeners();
   }
 }
