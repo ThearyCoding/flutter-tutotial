@@ -1,3 +1,12 @@
+
+
+
+
+
+
+
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_tutoial/providers/cart_provider.dart';
 import '../../providers/auth_provider.dart';
@@ -7,6 +16,7 @@ import '../../providers/user_provider.dart';
 import '../../views/login_page.dart';
 import '../../services/token_storage.dart';
 import 'package:provider/provider.dart';
+import 'google_map_screen.dart';
 import 'views/main_page.dart';
 
 void main() async {
@@ -53,7 +63,8 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: isLogin ? MainPage() : LoginPage(),
+      home: GoogleMapScreen(),
+    //  home: isLogin ? MainPage() : LoginPage(),
     );
   }
 }

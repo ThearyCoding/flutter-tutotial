@@ -42,6 +42,7 @@ dependencies:
   dio: ^5.8.0+1
   flutter_secure_storage: ^9.2.4
   provider: ^6.1.2
+  google_maps_flutter: ^2.10.0
   # flutter_meedu_videoplayer:
   #   path: packages/flutter_meedu_videoplayer/package
   # youtube_explode_dart: ^2.3.9
