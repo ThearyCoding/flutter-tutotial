@@ -1,70 +1,100 @@
-
-
-
-
-
-
-
-
-
 import 'package:flutter/material.dart';
-import 'package:flutter_tutoial/providers/cart_provider.dart';
-import '../../providers/auth_provider.dart';
-import '../../providers/category_provider.dart';
-import '../../providers/product_provider.dart';
-import '../../providers/user_provider.dart';
-import '../../views/login_page.dart';
-import '../../services/token_storage.dart';
-import 'package:provider/provider.dart';
-import 'google_map_screen.dart';
-import 'views/main_page.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (context) => CategoryProvider()),
-    ChangeNotifierProvider(create: (context) => ProductProvider()),
-    ChangeNotifierProvider(create: (context) => AuthProvider()),
-    ChangeNotifierProvider(create: (context) => UserProvider()),
-    ChangeNotifierProvider(create: (context) => CartProvider())
-  ], child: MyApp()));
-}
+void main() => runApp(MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: YoutubeClonePage(),
+    ));
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class YoutubeClonePage extends StatefulWidget {
+  const YoutubeClonePage({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<YoutubeClonePage> createState() => _YoutubeClonePageState();
 }
 
-class _MyAppState extends State<MyApp> {
-  final TokenStorage _tokenStorage = TokenStorage();
-  bool isLogin = false;
-  Future<void> _isLogin() async {
-    final token = await _tokenStorage.getToken();
-    setState(() {
-      if (token != null) {
-        isLogin = true;
-      }
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _isLogin();
-  }
-
+class _YoutubeClonePageState extends State<YoutubeClonePage> {
+  final List<String> headers = ["All", "Flutter", "Source Code", "Composer"];
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return Scaffold(
+      backgroundColor: Color(0xff131114),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            floating: true,
+            backgroundColor: Color(0xff131114),
+            bottom: PreferredSize(
+                preferredSize: Size.fromHeight(50),
+                child: SizedBox(
+                  height: 50,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return Chip(label: Text(headers[index]));
+                        },
+                        separatorBuilder: (context, index) => SizedBox(
+                              width: 10,
+                            ),
+                        itemCount: headers.length),
+                  ),
+                )),
+            actions: [
+              Icon(
+                Icons.tv,
+                size: 26,
+                color: Colors.white,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Icon(
+                Icons.notifications,
+                color: Colors.white,
+                size: 26,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Icon(
+                Icons.search,
+                color: Colors.white,
+                size: 26,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+            ],
+            title: Row(
+              children: [
+                Image.network(
+                    width: 50,
+                    height: 50,
+                    "https://static.vecteezy.com/system/resources/previews/023/986/704/non_2x/youtube-logo-youtube-logo-transparent-youtube-icon-transparent-free-free-png.png"),
+                Text(
+                  "YOUTUBE",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.white),
+                )
+              ],
+            ),
+          ),
+
+          SliverList(delegate: SliverChildBuilderDelegate(
+            childCount: 10,
+            (context,index){
+            return Container(
+              margin: EdgeInsets.all(10),
+              width: double.infinity,
+              height: 300,
+              decoration: BoxDecoration(
+                color: Colors.amber
+              ),
+            );
+          }))
+        ],
       ),
-      home: GoogleMapScreen(),
-    //  home: isLogin ? MainPage() : LoginPage(),
     );
   }
 }

@@ -43,6 +43,13 @@ dependencies:
   flutter_secure_storage: ^9.2.4
   provider: ^6.1.2
   google_maps_flutter: ^2.10.0
+  geolocator: ^13.0.2
+  flutter_dotenv: ^5.2.1
+  flutter_polyline_points: ^2.1.0
+  get: ^4.7.2
+  flutter_html:
+    git:
+      url: https://github.com/EArminjon/flutter_html.git
   # flutter_meedu_videoplayer:
   #   path: packages/flutter_meedu_videoplayer/package
   # youtube_explode_dart: ^2.3.9
@@ -75,6 +82,7 @@ flutter:
     - assets/
     - assets/images/
     - assets/icons/
+    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
